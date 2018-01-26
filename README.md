@@ -1,19 +1,14 @@
-# juejinSpider
-基于mongodb+express+vue+axios+bootstrap的掘金最热文章收藏评论分析
+# douSpider
 
-安装node,mongodb环境
+全自动删除豆瓣评论，并且删贴
 
-数据库连接文件在mongidb/dbconfig中
+安装node环境
+
+git clone git@github.com:gengchen528/douEdit.git
 
 
-    DB_URL = 'mongodb://localhost:27017/juejin';(替换成你自己的数据目录)
+cd douEdit
 
-# install
+cnpm install
 
-    npm install
-
-    cd server
-
-    node app.js
-
-    打开view,双击打开index.html
+node douSpider.js
