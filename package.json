@@ -1,0 +1,23 @@
+{
+  "name": "douedit",
+  "version": "1.0.0",
+  "description": "基于mongodb+express+vue+axios+bootstrap的掘金最热文章收藏评论分析",
+  "main": "douSpider.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gengchen528/douEdit.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gengchen528/douEdit/issues"
+  },
+  "homepage": "https://github.com/gengchen528/douEdit#readme",
+  "devDependencies": {
+    "cheerio": "^1.0.0-rc.2",
+    "superagent": "^3.8.2"
+  }
+}
