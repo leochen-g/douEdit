@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/gengchen528/douEdit#readme",
   "devDependencies": {
+    "baidu-aip-sdk": "^2.1.0",
+    "baidu-ocr-api": "^2.0.5",
     "cheerio": "^1.0.0-rc.2",
     "superagent": "^3.8.2"
   }
