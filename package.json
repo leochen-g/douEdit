@@ -4,7 +4,8 @@
   "description": "基于mongodb+express+vue+axios+bootstrap的掘金最热文章收藏评论分析",
   "main": "douSpider.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "server": "browser-sync start --proxy 'localhost:3000' --files \"**\" "
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,11 @@
   "devDependencies": {
     "baidu-aip-sdk": "^2.1.0",
     "baidu-ocr-api": "^2.0.5",
+    "body-parser": "^1.18.3",
+    "browser-sync": "^2.26.3",
     "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.4",
+    "jquery": "^3.3.1",
     "superagent": "^3.8.2"
   }
 }

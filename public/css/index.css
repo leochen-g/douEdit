@@ -1,0 +1,47 @@
+.el-header{
+    background-color: #39B345;
+    color: #ffffff;
+    text-align: center;
+    line-height: 60px;
+}
+.el-row {
+    margin-bottom: 20px;
+}
+.el-col {
+    border-radius: 4px;
+}
+.bg-purple-dark {
+    background: #99a9bf;
+}
+.bg-purple {
+    background: #d7e1d7;
+    padding: 20px;
+}
+.bg-purple-light {
+    background: #e5e9f2;
+}
+.grid-content {
+    border-radius: 4px;
+    min-height: 430px;
+}
+.row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+}
+.db-log{
+    padding-top: 10px;
+    height: 216px;
+}
+.db-log-main{
+    background-color: #ffffff;
+    color: #999999;
+    padding: 5px 10px;
+    min-height: 100px;
+}
+.warning-red{
+    color: red;
+}
+.db-btn{
+    background-color: #39B345;
+    color: #ffffff;
+}
