@@ -21,10 +21,10 @@ xml = function (url, method, params, data) {
     return cheerio.load(r.text);
 }
 //请求返回json
-jsonreq = function (url, method, params, data) {
+json_req = function (url, method, params, data) {
     r = req(url, method, params, data)
     return r
 }
 module.exports ={
-  req,xml,jsonreq
+  req,xml,jso_req
 }
