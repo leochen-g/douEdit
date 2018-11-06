@@ -9,12 +9,13 @@ req = function(url,method, params, data, cookies, callback) {
 	superagent(method, url)
 		.query(params)
 		.send(data)
+		.set('Content-Type','application/x-www-form-urlencoded')
 		.set('Host', constant.API_HOST)
 		.set('Referer', constant.API_GROUP_GROUP)
 		.set('Cookie', cookies)
 		.end(function (err, response) {
 		  if (err) {
-			return err
+			reject(err)
 		  }
 		  resolve(response)
 		})

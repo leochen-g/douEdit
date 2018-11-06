@@ -29,11 +29,19 @@ function isEmpty(body) {
   }
   return false
 }
-//注册接口
+function filter(req,res,callback) {
+  if(isEmpty(req.body)){
+	res.json({head: {code: 10000, msg: '请输入登录信息'}, data: {}})
+  }else {
+	callback(req.body,res)
+  }
+}
+//登录接口
 app.post('/api/login', (req, res) => {
   var user = req.body.user;
   var psd = req.body.psd;
   var source = req.body.source
+  filter(req,res,ctr.login)
   if(isEmpty(req.body)){
     res.json({head: {code: 10000, msg: '请输入登录信息'}, data: {}})
   }else {
@@ -42,10 +50,10 @@ app.post('/api/login', (req, res) => {
 })
 //删除所有自己发的帖子
 app.post('/api/group/publish/deleteAll',(req,res) => {
-  if(isEmpty(req.body)){
-	res.json({head: {code: 10000, msg: '请输入完整的参数'}, data: {}})
-  }else {
-    ctr.group.publish.deleteAll(req.body,res)
-  }
+  filter(req,res,ctr.group.publish.deleteAll)
+})
+//获取自己的发帖列表
+app.post('/api/group/publish/getAll',(req,res) => {
+  filter(req,res,ctr.group.publish)
 })
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

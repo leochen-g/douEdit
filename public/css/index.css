@@ -22,7 +22,6 @@
 }
 .grid-content {
     border-radius: 4px;
-    min-height: 430px;
 }
 .row-bg {
     padding: 10px 0;
@@ -35,7 +34,6 @@
 .db-log-main{
     background-color: #ffffff;
     color: #999999;
-    padding: 5px 10px;
     min-height: 100px;
 }
 .warning-red{
@@ -44,4 +42,7 @@
 .db-btn{
     background-color: #39B345;
     color: #ffffff;
+}
+.db-item{
+
 }

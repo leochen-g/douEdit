@@ -14,26 +14,7 @@
         <el-header>豆瓣批量操作工具</el-header>
         <el-main>
             <el-row :gutter="20">
-                <!--<el-col :span="8">-->
-                    <!--<div class="grid-content bg-purple">-->
-                        <!--<h4>登录获取Cookies</h4>-->
-                        <!--<el-form ref="form" :model="form" label-width="40px">-->
-                            <!--<el-form-item label="账号">-->
-                                <!--<el-input v-model="form.userName"></el-input>-->
-                            <!--</el-form-item>-->
-                            <!--<el-form-item label="密码">-->
-                                <!--<el-input v-model="form.passWord" type="password"></el-input>-->
-                            <!--</el-form-item>-->
-                            <!--<el-form-item>-->
-                                <!--<div class="text-right">-->
-                                    <!--<el-button class="db-btn" @click="login">立即登录</el-button>-->
-                                    <!--<h6>此登录不记录任何账号密码，只做获取Cookie使用</h6>-->
-                                <!--</div>-->
-                            <!--</el-form-item>-->
-                        <!--</el-form>-->
-                    <!--</div>-->
-                <!--</el-col>-->
-                <el-col :span="8">
+                <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>填写Cookies</h4>
                         <el-form ref="form" :model="form" label-width="60px">
@@ -54,7 +35,9 @@
                         </el-form>
                     </div>
                 </el-col>
-                <el-col :span="8">
+            </el-row>
+            <el-row>
+                <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除自己发的所有帖子<span class="warning-red">(慎用)</span></h4>
                         <h6>本操作将会执行三个步骤：</h6>
@@ -70,7 +53,9 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="8">
+            </el-row>
+            <el-row>
+                <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除所有自己回复过的帖子<span class="warning-red">(慎用)</span></h4>
                         <h6>本操作将会执行三个步骤：</h6>
@@ -88,7 +73,7 @@
                 </el-col>
             </el-row>
             <el-row :gutter="20">
-                <el-col :span="8">
+                <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除指定自己发的帖子</h4>
                         <el-input v-model="groupTopicId" placeholder="请输入TopicID"></el-input>
@@ -105,30 +90,48 @@
                         </div>
                     </div>
                 </el-col>
-                <el-col :span="8">
-                    <div class="grid-content bg-purple">
-                        <h4>删除指定自己回复的帖子</h4>
-                        <el-input v-model="replyTopicId" placeholder="请输入TopicID"></el-input>
-                        <h6>本操作将会执行三个步骤：</h6>
-                        <h6>1、删除自己的回复</h6>
-                        <h6>2、删除别人的回复</h6>
-                        <h6>3、删除帖子</h6>
-                        <div class="text-right">
-                            <el-button class="db-btn">开始执行</el-button>
-                        </div>
-                        <div class="db-log">
-                            <p>输出日志:</p>
-                            <p class="db-log-main">{{topicDeleteLog}}</p>
-                        </div>
-                    </div>
-                </el-col>
             </el-row>
-            <el-row >
+            <el-row><el-col :span="24" class="db-item">
+                <div class="grid-content bg-purple">
+                    <h4>删除指定自己回复的帖子</h4>
+                    <el-input v-model="replyTopicId" placeholder="请输入TopicID"></el-input>
+                    <h6>本操作将会执行三个步骤：</h6>
+                    <h6>1、删除自己的回复</h6>
+                    <h6>2、删除别人的回复</h6>
+                    <h6>3、删除帖子</h6>
+                    <div class="text-right">
+                        <el-button class="db-btn">开始执行</el-button>
+                    </div>
+                    <div class="db-log">
+                        <p>输出日志:</p>
+                        <p class="db-log-main">{{topicDeleteLog}}</p>
+                    </div>
+                </div>
+            </el-col></el-row>
+            <el-row><el-col :span="24" class="db-item">
+                <div class="grid-content bg-purple">
+                    <h4>获取自己的帖子列表</h4>
+                    <h6>本操作将会执行1个步骤：</h6>
+                    <h6>1、获取自己发布的帖子的id</h6>
+                    <div class="text-right">
+                        <el-button class="db-btn" @click="getTopicList()">开始执行</el-button>
+                    </div>
+                    <div class="db-log">
+                        <p>输出日志:</p>
+                        <ul class="db-log-main">
+                            <li v-for="(item,index) in topicList">{{item}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </el-col></el-row>
+            <el-row>
                 <el-col :span="24">
                     <h4>说明：</h4>
                     <ol>
                         <li>首先需求很明确：快速删除掉在豆瓣小组内的发帖和回复记录</li>
-                        <li>要访问自己的豆瓣小组，需要登录帐号获取会话信息，其中一个关键的信息会话ID<code>dbcl2</code>设置了<code>HttpOnly</code>，此外还需要一个动态id<code>ck</code>。当然这些问题都可以通过把所有的<code>Cookie</code>添加到客户端搞定。</li>
+                        <li>
+                            要访问自己的豆瓣小组，需要登录帐号获取会话信息，其中一个关键的信息会话ID<code>dbcl2</code>设置了<code>HttpOnly</code>，此外还需要一个动态id<code>ck</code>。当然这些问题都可以通过把所有的<code>Cookie</code>添加到客户端搞定。
+                        </li>
                         <li>要删除发帖记录，需要先删除掉贴子下的所有回复，在删除别人的回复时，需要调用管理员权限并提交理由</li>
                         <li>要删除掉回复记录，需要删除掉所有的自己的回复，但是别人的引用是无法删除的，所以最后要真正隐藏掉记录，需要注销帐号。</li>
                         <li>登录是敏感操作，频繁登录很容易触发机器人，需要缓存会话信息</li>
@@ -136,8 +139,10 @@
                     </ol>
                     <h4>接口列表</h4>
                     <ul>
-                        <li>登录账号：<code>POST https://www.douban.com/accounts/login</code>，登录前需要先获取<code>bid</code>等信息，登录时如果不设置<code>redir_url</code>，会自动跳转到豆瓣首页，如果登录失败，则不会跳转，可以据此判断登录是否成功，或者也可以用Cookie信息进行判断。跳转完成后会拿到所有会话所需要的Cookie信息，所以需要跟踪跳转</li>
-                        <li>登出账号：<code>GET https://www.douban.com/accounts/logout?source=group&amp;ck=%s</code>，这里的<code>ck</code>就是会话中的<code>ck</code>
+                        <li>登录账号：<code>POST https://www.douban.com/accounts/login</code>，登录前需要先获取<code>bid</code>等信息，登录时如果不设置<code>redir_url</code>，会自动跳转到豆瓣首页，如果登录失败，则不会跳转，可以据此判断登录是否成功，或者也可以用Cookie信息进行判断。跳转完成后会拿到所有会话所需要的Cookie信息，所以需要跟踪跳转
+                        </li>
+                        <li>登出账号：<code>GET
+                            https://www.douban.com/accounts/logout?source=group&amp;ck=%s</code>，这里的<code>ck</code>就是会话中的<code>ck</code>
                         </li>
                         <li>获取自己发的帖子列表：<code>GET https://www.douban.com/group/people/%s/publish</code>，有翻页</li>
                         <li>获取自己回复过的帖子列表：<code>GET https://www.douban.com/group/people/%s/reply</code>，有翻页</li>
