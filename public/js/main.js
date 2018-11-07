@@ -9,7 +9,7 @@ var app = new Vue({
 	  dbcl2:'',
 	  replyTopicId:'',
 	  groupTopicId:'',
-	  topicList:[],
+	  tableData:[],
 	  topicDeleteLog:'正在删除其他人评论'
 	}
   },
@@ -43,15 +43,31 @@ var app = new Vue({
 		  }
 		}
 	},
-	getTopicList (){
+	getTopicList (val){
       var _this = this
-	  axios.post('/group/publish/getAll',{Cookies:_this.Cookies,ck:_this.ck,dbcl2:_this.dbcl2})
+	  if(val=='publish'){
+        action ='/group/publish/getAll'
+	  }else {
+        action = '/group/reply/getAll'
+	  }
+	  axios.post(action,{Cookies:_this.Cookies,ck:_this.ck,dbcl2:_this.dbcl2})
 		  .then(function (res) {
-		    _this.topicList = res.data.data
+		    _this.tableData = res.data.data
 			console.log(res.data.data);
 		  })
 		  .catch(function (err) {
 			console.log(err);
+		  })
+	},
+	deleteCommit (id,obj) {
+      var _this = this;
+      action='/group/remove/comment'
+      axios.post(action,{Cookies:_this.Cookies,ck:_this.ck,dbcl2:_this.dbcl2,topicId:id})
+		  .then(function (res) {
+
+		  })
+		  .catch(function (err) {
+
 		  })
 	}
   }

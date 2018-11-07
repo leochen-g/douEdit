@@ -56,4 +56,12 @@ app.post('/api/group/publish/deleteAll',(req,res) => {
 app.post('/api/group/publish/getAll',(req,res) => {
   filter(req,res,ctr.group.publish)
 })
+//获取自己的回帖列表
+app.post('/api/group/reply/getAll',(req,res) => {
+  filter(req,res,ctr.group.reply)
+})
+//获取自己的回帖列表
+app.post('/api/group/remove/comment',(req,res) => {
+  filter(req,res,ctr.group.removeComment)
+})
 app.listen(3000, () => console.log('Example app listening on port 3000!'))

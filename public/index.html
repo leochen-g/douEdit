@@ -16,7 +16,7 @@
             <el-row :gutter="20">
                 <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
-                        <h4>填写Cookies</h4>
+                        <h4>第一步：填写Cookies</h4>
                         <el-form ref="form" :model="form" label-width="60px">
                             <el-form-item label="Cookies">
                                 <el-input
@@ -26,18 +26,64 @@
                                         v-model="Cookies" :click="changeCookies()">
                                 </el-input>
                             </el-form-item>
-                            <el-form-item label="ck值">
-                                <el-input v-model="ck" type="text"></el-input>
-                            </el-form-item>
-                            <el-form-item label="dbcl2">
-                                <el-input v-model="dbcl2" type="text"></el-input>
-                            </el-form-item>
+                            <el-row :gutter="20">
+                                <el-col :span="12">
+                                    <el-form-item label="ck值:" class="input-item">
+                                    <el-input v-model="ck" type="text"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                                <el-col :span="12">
+                                    <el-form-item label="dbcl2:" class="input-item">
+                                        <el-input v-model="dbcl2" type="text"></el-input>
+                                    </el-form-item>
+                                </el-col>
+                            </el-row>
                         </el-form>
                     </div>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="24" class="db-item">
+            <el-row><el-col :span="24" class="db-item">
+                <div class="grid-content bg-purple">
+                    <h4>第二步：获取帖子列表</h4>
+                    <h6>本操作将会执行1个步骤：</h6>
+                    <h6>1、获取自己发布的帖子列表或者回复列表</h6>
+                    <div class="text-right">
+                        <el-button class="db-btn" @click="getTopicList('publish')">发布列表</el-button>
+                        <el-button class="db-btn" @click="getTopicList('reply')">回复列表</el-button>
+                    </div>
+                    <div class="db-log">
+                        <template>
+                            <el-table :data="tableData" style="width: 100%">
+                                <el-table-column
+                                        prop="title"
+                                        label="标题"
+                                        width="300">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="replyCount"
+                                        label="回复数"
+                                        width="180">
+                                </el-table-column>
+                                <el-table-column
+                                        prop="date"
+                                        label="更新时间"
+                                        width="200">
+                                </el-table-column>
+                                <el-table-column
+                                        fixed="right"
+                                        label="操作">
+                                    <template slot-scope="scope">
+                                        <el-button type="text" @click="deleteCommit(scope.row.id,scope.row)" size="small">删回复</el-button>
+                                        <el-button type="text" size="small">删帖</el-button>
+                                    </template>
+                                </el-table-column>
+                            </el-table>
+                        </template>
+                    </div>
+                </div>
+            </el-col></el-row>
+            <el-row :gutter="20">
+                <el-col :span="6" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除自己发的所有帖子<span class="warning-red">(慎用)</span></h4>
                         <h6>本操作将会执行三个步骤：</h6>
@@ -53,9 +99,7 @@
                         </div>
                     </div>
                 </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="24" class="db-item">
+                <el-col :span="6" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除所有自己回复过的帖子<span class="warning-red">(慎用)</span></h4>
                         <h6>本操作将会执行三个步骤：</h6>
@@ -71,12 +115,25 @@
                         </div>
                     </div>
                 </el-col>
-            </el-row>
-            <el-row :gutter="20">
-                <el-col :span="24" class="db-item">
+                <el-col :span="6" class="db-item">
                     <div class="grid-content bg-purple">
                         <h4>删除指定自己发的帖子</h4>
-                        <el-input v-model="groupTopicId" placeholder="请输入TopicID"></el-input>
+                        <h6>本操作将会执行三个步骤：</h6>
+                        <h6>1、删除自己的回复</h6>
+                        <h6>2、删除别人的回复</h6>
+                        <h6>3、删除帖子</h6>
+                        <div class="text-right">
+                            <el-button class="db-btn">开始执行</el-button>
+                        </div>
+                        <div class="db-log">
+                            <p>输出日志:</p>
+                            <p class="db-log-main">{{topicDeleteLog}}</p>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="6" class="db-item">
+                    <div class="grid-content bg-purple">
+                        <h4>删除指定自己回复的帖子</h4>
                         <h6>本操作将会执行三个步骤：</h6>
                         <h6>1、删除自己的回复</h6>
                         <h6>2、删除别人的回复</h6>
@@ -91,39 +148,6 @@
                     </div>
                 </el-col>
             </el-row>
-            <el-row><el-col :span="24" class="db-item">
-                <div class="grid-content bg-purple">
-                    <h4>删除指定自己回复的帖子</h4>
-                    <el-input v-model="replyTopicId" placeholder="请输入TopicID"></el-input>
-                    <h6>本操作将会执行三个步骤：</h6>
-                    <h6>1、删除自己的回复</h6>
-                    <h6>2、删除别人的回复</h6>
-                    <h6>3、删除帖子</h6>
-                    <div class="text-right">
-                        <el-button class="db-btn">开始执行</el-button>
-                    </div>
-                    <div class="db-log">
-                        <p>输出日志:</p>
-                        <p class="db-log-main">{{topicDeleteLog}}</p>
-                    </div>
-                </div>
-            </el-col></el-row>
-            <el-row><el-col :span="24" class="db-item">
-                <div class="grid-content bg-purple">
-                    <h4>获取自己的帖子列表</h4>
-                    <h6>本操作将会执行1个步骤：</h6>
-                    <h6>1、获取自己发布的帖子的id</h6>
-                    <div class="text-right">
-                        <el-button class="db-btn" @click="getTopicList()">开始执行</el-button>
-                    </div>
-                    <div class="db-log">
-                        <p>输出日志:</p>
-                        <ul class="db-log-main">
-                            <li v-for="(item,index) in topicList">{{item}}</li>
-                        </ul>
-                    </div>
-                </div>
-            </el-col></el-row>
             <el-row>
                 <el-col :span="24">
                     <h4>说明：</h4>

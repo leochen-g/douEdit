@@ -5,7 +5,7 @@
     line-height: 60px;
 }
 .el-row {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 .el-col {
     border-radius: 4px;
@@ -15,7 +15,7 @@
 }
 .bg-purple {
     background: #d7e1d7;
-    padding: 20px;
+    padding: 10px;
 }
 .bg-purple-light {
     background: #e5e9f2;
@@ -29,7 +29,6 @@
 }
 .db-log{
     padding-top: 10px;
-    height: 216px;
 }
 .db-log-main{
     background-color: #ffffff;
@@ -45,4 +44,8 @@
 }
 .db-item{
 
+}
+.input-item{
+    width: 100%;
+    display: inline-block;
 }

@@ -59,6 +59,23 @@ _parse_topic_list = function (text) {
   });
   return result
 }
+//解析帖子列表详情
+_parse_topic_all_info_list = function (text) {
+  let $ = text
+  let result = []
+  $('.olt tr').each(function (index, element) {
+	var obj = {}
+	let $element = $(element);
+	let href = $element.find('.title a').attr('href');
+	let href_item = href.split('/');
+	obj.id = href_item[5];
+	obj.title = $element.find('.title a').attr('title');
+	obj.replyCount = $element.find('.td-reply').text().replace('回应', '');
+	obj.date = $element.find('.td-time').text()
+	result.push(obj)
+  });
+  return result
+}
 //解析评论列表
 _parse_comment_list = function (text) {
   let $ = text
@@ -76,8 +93,8 @@ _parse_comment_list = function (text) {
 get_comments_by_topic = function (topic, start = 0) {
   let url = format(constant.API_GROUP_GET_TOPIC, [topic])
   return xml(url, 'GET', {start: start}, '', Cookies)
-	  .then(result=>{
-		return  _parse_comment_list(result)
+	  .then(result => {
+		return _parse_comment_list(result)
 	  })
 }
 
@@ -91,15 +108,15 @@ remove_comment_by_topic_and_cid = function (topic, cid) {
   let data = {'cid': cid, 'ck': ck, 'reason': 'other_reason', 'submit': '确定'}
   req(url, 'POST', '', data, Cookies)
 	  .then(result => {
-	    console.log('一次执行结果',result);
-	    return result
+		console.log('一次执行结果', result);
+		return result
 	  }, error => {
-	    console.log('错误',error.response.body.r);
+		console.log('错误', error.response.body.r);
 		if (error.response.body.r) {
 		  req(format(constant.API_GROUP_ADMIN_REMOVE_COMMENT, [topic]), 'POST', '', data, Cookies)
-			  .then(result=>{
-			    console.log('二次执行后结果',result);
-			    return result
+			  .then(result => {
+				console.log('二次执行后结果', result);
+				return result
 			  })
 		} else {
 		  throw  error
@@ -111,43 +128,54 @@ remove_topic_by_topic = function (topic) {
   let url = format(constant.API_GROUP_REMOVE_TOPIC, [topic])
   let param = {'ck': ck}
   return req(url, 'POST', param, '', Cookies)
-	  .then(result=>{
-	    return result
+	  .then(result => {
+		return result
 	  })
 }
 //获取所有帖子下的回复cid
 get_all_publish_topic_cid = async function (body, start = 0) {
-  let topicList =await  get_all_publish_topic(body, start)
+  let topicList = await  get_all_publish_topic(body, start)
   let allComment = []
-  for(i in topicList){
-    let comment = await get_comments_by_topic(topicList[i],0)
+  for (i in topicList) {
+	let comment = await get_comments_by_topic(topicList[i], 0)
 	allComment.push(comment)
   }
   return allComment
 };
 
 //获取个人发布帖子列表
-get_all_publish_topic_list = function (body,res, start = 0) {
+get_all_publish_topic_list = function (body, res, start = 0) {
   Cookies = body.Cookies
   ck = body.ck
   userId = body.dbcl2
   param = [userId]
   url = format(constant.API_GROUP_LIST_USER_PUBLISHED_TOPICS, param);
   return xml(url, 'GET', {'start': start}, '', Cookies)
-	  .then(result=>{
-		return res.json({head: {code: 0, msg: 'ok'}, data:_parse_topic_list(result)})
+	  .then(result => {
+		return res.json({head: {code: 0, msg: 'ok'}, data: _parse_topic_all_info_list(result)})
 	  })
 };
 // 获取所有回复的帖子
-get_all_reply_topic_list = function (body,res, start=0,) {
+get_all_reply_topic_list = function (body, res, start = 0) {
   Cookies = body.Cookies
   ck = body.ck
   userId = body.dbcl2
   param = [userId]
-  let url = format(constant.API_GROUP_LIST_USER_COMMENTED_TOPICS,param)
-  return xml(url,'GET',{'start':start},'',Cookies)
-	  .then(result=>{
-	    return _parse_topic_list(result)
+  let url = format(constant.API_GROUP_LIST_USER_COMMENTED_TOPICS, param)
+  return xml(url, 'GET', {'start': start}, '', Cookies)
+	  .then(result => {
+		return res.json({head: {code: 0, msg: 'ok'}, data: _parse_topic_all_info_list(result)})
+	  })
+}
+//删除评论
+remove_comment = function (body, res, start = 0) {
+  Cookies = body.Cookies
+  ck = body.ck
+  userId = body.dbcl2
+  topicId = body.topicId
+  get_comments_by_topic(topicId)
+	  .then(function (response) {
+		console.log('结果',response);
 	  })
 }
 // let obj = {
@@ -156,19 +184,11 @@ get_all_reply_topic_list = function (body,res, start=0,) {
 //   dbcl2: '143887437'
 // }
 // get_all_reply_topic_list(obj,'',0)
-
-//小组操作
-deleteAllTopic = function (body, res) {
-  ck = body.ck;
-  Cookie = body.Cookies;
-  userId = body.dbcl2
-  let param = [userId]
-  getPublishTopicList(API_GROUP_LIST_USER_PUBLISHED_TOPICS, param)
-}
 module.exports = {
   login: login,
   group: {
 	publish: get_all_publish_topic_list,
-	replay: {}
+	reply: get_all_reply_topic_list,
+	removeComment: remove_comment,
   }
 }
