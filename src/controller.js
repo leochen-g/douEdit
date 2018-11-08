@@ -97,26 +97,20 @@ get_comments_by_topic = function (topic, start = 0) {
 		return _parse_comment_list(result)
 	  })
 }
-
-// validate = async function () {
-//  let res = await get_comments_by_topic(126620784,0)
-//  	console.log('结果',res);
-// }
 //删除指定帖子的所有评论
 remove_comment_by_topic_and_cid = function (topic, cid) {
   let url = format(constant.API_GROUP_REMOVE_COMMENT, [topic])
   let data = {'cid': cid, 'ck': ck, 'reason': 'other_reason', 'submit': '确定'}
-  req(url, 'POST', '', data, Cookies)
+  return req(url, 'POST', '', data, Cookies)
 	  .then(result => {
-		console.log('一次执行结果', result);
-		return result
+
+		return result.body
 	  }, error => {
 		console.log('错误', error.response.body.r);
 		if (error.response.body.r) {
 		  req(format(constant.API_GROUP_ADMIN_REMOVE_COMMENT, [topic]), 'POST', '', data, Cookies)
 			  .then(result => {
-				console.log('二次执行后结果', result);
-				return result
+				return result.body
 			  })
 		} else {
 		  throw  error
@@ -124,12 +118,13 @@ remove_comment_by_topic_and_cid = function (topic, cid) {
 	  })
 };
 //删除指定帖子
-remove_topic_by_topic = function (topic) {
+remove_topic_by_topicId = function (topic) {
   let url = format(constant.API_GROUP_REMOVE_TOPIC, [topic])
   let param = {'ck': ck}
   return req(url, 'POST', param, '', Cookies)
 	  .then(result => {
-		return result
+	    console.log('删除结果',result.body);
+		return result.body
 	  })
 }
 //获取所有帖子下的回复cid
@@ -175,20 +170,36 @@ remove_comment = function (body, res, start = 0) {
   topicId = body.topicId
   get_comments_by_topic(topicId)
 	  .then(function (response) {
-		console.log('结果',response);
+		let obj = response;
+		let k = 0
+		for (i in obj) {
+		  for (j in obj[i]) {
+			setTimeout(function () {
+			  remove_comment_by_topic_and_cid(i, obj[i][k])
+				  .then(function (response) {
+					console.log('删除结果', response.body);
+					console.log('第' + obj[i][k] + '个评论已删除')
+				  })
+			  console.log('定时器', '评论' + obj[i][k]);
+			  k++
+			}, 8000 * j)
+		  }
+		}
 	  })
 }
-// let obj = {
-//   Cookies: 'll="108296"; bid=xPi2CReRblM; _vwo_uuid_v2=D0A240BFA82732349367B2EF6EB2B7F92|6dd2f91b45e6c13d7dc4542a9af62183; _ga=GA1.2.1255902232.1525503530; douban-fav-remind=1; douban-profile-remind=1; ps=y; push_doumail_num=0; push_noty_num=0; ue="478914121@qq.com"; __utmv=30149280.14388; ct=y; __utmc=30149280; viewed="26301434"; gr_user_id=479a0200-1428-4339-8292-a59c18685e94; dbcl2="143887437:IA6j+ryFzRg"; ck=Ul7S; __utmz=30149280.1540435736.27.24.utmcsr=baidu|utmccn=(organic)|utmcmd=organic; ap_v=0,6.0; _pk_ref.100001.8cb4=%5B%22%22%2C%22%22%2C1540528421%2C%22https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DR6a-2rw5im0vKuceCGfBelCJaFYVp_05iAl9tGbbTncP6IwTC-WU4-q-3844SXFW%26ck%3D1688.2.6.139.154.130.142.470%26shh%3Dwww.baidu.com%26sht%3D98012088_5_dg%26wd%3D%26eqid%3Dfc7806df0000cecb000000045bd12f0e%22%5D; _pk_ses.100001.8cb4=*; __utma=30149280.1255902232.1525503530.1540519842.1540528421.31; __utmt=1; _pk_id.100001.8cb4=44b34387331b5713.1526034366.27.1540528585.1540522941.; __utmb=30149280.9.9.1540528585449',
-//   ck: 'Ul7S',
-//   dbcl2: '143887437'
-// }
-// get_all_reply_topic_list(obj,'',0)
+remove_topic = function (body,res,start=0) {
+  Cookies = body.Cookies
+  ck = body.ck
+  userId = body.dbcl2
+  topicId = body.topicId
+  res.json({head: {code: 0, msg: 'ok'}, data: remove_topic_by_topicId(topicId)})
+}
 module.exports = {
   login: login,
   group: {
 	publish: get_all_publish_topic_list,
 	reply: get_all_reply_topic_list,
 	removeComment: remove_comment,
+	removeTopic:remove_topic
   }
 }

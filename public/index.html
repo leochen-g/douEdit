@@ -29,125 +29,135 @@
                             <el-row :gutter="20">
                                 <el-col :span="12">
                                     <el-form-item label="ck值:" class="input-item">
-                                    <el-input v-model="ck" type="text"></el-input>
+                                        <el-input v-model="ck" type="text" placeholder="填入Cookies,自动获取"></el-input>
                                     </el-form-item>
                                 </el-col>
                                 <el-col :span="12">
                                     <el-form-item label="dbcl2:" class="input-item">
-                                        <el-input v-model="dbcl2" type="text"></el-input>
+                                        <el-input v-model="dbcl2" type="text" placeholder="填入Cookies,自动获取"></el-input>
                                     </el-form-item>
                                 </el-col>
+                            </el-row>
+                            <el-row class="text-right">
+                                <el-button class="db-btn" @click="clearCookies()">清除Cookies</el-button>
                             </el-row>
                         </el-form>
                     </div>
                 </el-col>
             </el-row>
-            <el-row><el-col :span="24" class="db-item">
-                <div class="grid-content bg-purple">
-                    <h4>第二步：获取帖子列表</h4>
-                    <h6>本操作将会执行1个步骤：</h6>
-                    <h6>1、获取自己发布的帖子列表或者回复列表</h6>
-                    <div class="text-right">
-                        <el-button class="db-btn" @click="getTopicList('publish')">发布列表</el-button>
-                        <el-button class="db-btn" @click="getTopicList('reply')">回复列表</el-button>
-                    </div>
-                    <div class="db-log">
-                        <template>
-                            <el-table :data="tableData" style="width: 100%">
-                                <el-table-column
-                                        prop="title"
-                                        label="标题"
-                                        width="300">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="replyCount"
-                                        label="回复数"
-                                        width="180">
-                                </el-table-column>
-                                <el-table-column
-                                        prop="date"
-                                        label="更新时间"
-                                        width="200">
-                                </el-table-column>
-                                <el-table-column
-                                        fixed="right"
-                                        label="操作">
-                                    <template slot-scope="scope">
-                                        <el-button type="text" @click="deleteCommit(scope.row.id,scope.row)" size="small">删回复</el-button>
-                                        <el-button type="text" size="small">删帖</el-button>
-                                    </template>
-                                </el-table-column>
-                            </el-table>
-                        </template>
-                    </div>
-                </div>
-            </el-col></el-row>
-            <el-row :gutter="20">
-                <el-col :span="6" class="db-item">
+            <el-row>
+                <el-col :span="24" class="db-item">
                     <div class="grid-content bg-purple">
-                        <h4>删除自己发的所有帖子<span class="warning-red">(慎用)</span></h4>
-                        <h6>本操作将会执行三个步骤：</h6>
-                        <h6>1、删除自己的回复</h6>
-                        <h6>2、删除别人的回复</h6>
-                        <h6>3、删除帖子</h6>
+                        <h4>第二步：获取帖子列表</h4>
+                        <h6>本操作将会执行1个步骤：</h6>
+                        <h6>1、获取自己发布的帖子列表或者回复列表</h6>
+                        <h6 style="color: red">注意：要删除自己发布的帖子，所有回复必须先删除</h6>
                         <div class="text-right">
-                            <el-button class="db-btn">开始执行</el-button>
+                            <el-button class="db-btn" @click="getTopicList('publish')">发布列表</el-button>
+                            <el-button class="db-btn" @click="getTopicList('reply')">回复列表</el-button>
                         </div>
                         <div class="db-log">
-                            <p>输出日志:</p>
-                            <p class="db-log-main">{{topicDeleteLog}}</p>
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6" class="db-item">
-                    <div class="grid-content bg-purple">
-                        <h4>删除所有自己回复过的帖子<span class="warning-red">(慎用)</span></h4>
-                        <h6>本操作将会执行三个步骤：</h6>
-                        <h6>1、删除自己的回复</h6>
-                        <h6>2、删除别人的回复</h6>
-                        <h6>3、删除帖子</h6>
-                        <div class="text-right">
-                            <el-button class="db-btn">开始执行</el-button>
-                        </div>
-                        <div class="db-log">
-                            <p>输出日志:</p>
-                            <p class="db-log-main">{{topicDeleteLog}}</p>
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6" class="db-item">
-                    <div class="grid-content bg-purple">
-                        <h4>删除指定自己发的帖子</h4>
-                        <h6>本操作将会执行三个步骤：</h6>
-                        <h6>1、删除自己的回复</h6>
-                        <h6>2、删除别人的回复</h6>
-                        <h6>3、删除帖子</h6>
-                        <div class="text-right">
-                            <el-button class="db-btn">开始执行</el-button>
-                        </div>
-                        <div class="db-log">
-                            <p>输出日志:</p>
-                            <p class="db-log-main">{{topicDeleteLog}}</p>
-                        </div>
-                    </div>
-                </el-col>
-                <el-col :span="6" class="db-item">
-                    <div class="grid-content bg-purple">
-                        <h4>删除指定自己回复的帖子</h4>
-                        <h6>本操作将会执行三个步骤：</h6>
-                        <h6>1、删除自己的回复</h6>
-                        <h6>2、删除别人的回复</h6>
-                        <h6>3、删除帖子</h6>
-                        <div class="text-right">
-                            <el-button class="db-btn">开始执行</el-button>
-                        </div>
-                        <div class="db-log">
-                            <p>输出日志:</p>
-                            <p class="db-log-main">{{topicDeleteLog}}</p>
+                            <template>
+                                <el-table :data="tableData" style="width: 100%">
+                                    <el-table-column
+                                            prop="title"
+                                            label="标题"
+                                            width="300">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="replyCount"
+                                            label="回复数"
+                                            width="180">
+                                    </el-table-column>
+                                    <el-table-column
+                                            prop="date"
+                                            label="更新时间"
+                                            width="200">
+                                    </el-table-column>
+                                    <el-table-column
+                                            fixed="right"
+                                            label="操作">
+                                        <template slot-scope="scope">
+                                            <el-button type="text" @click="deleteCommit(scope.row.id,scope.row)"
+                                                       size="small">{{listType=='publish'?'删除所有回复':'删除回复'}}
+                                            </el-button>
+                                            <el-button type="text" @click="deleteTopic(scope.row.id)" size="small"
+                                                       v-show="listType=='publish'">删除帖子
+                                            </el-button>
+                                        </template>
+                                    </el-table-column>
+                                </el-table>
+                            </template>
                         </div>
                     </div>
                 </el-col>
             </el-row>
+            <!--<el-row :gutter="20">-->
+                <!--<el-col :span="6" class="db-item">-->
+                    <!--<div class="grid-content bg-purple">-->
+                        <!--<h4>删除自己发的所有帖子<span class="warning-red">(慎用)</span></h4>-->
+                        <!--<h6>本操作将会执行三个步骤：</h6>-->
+                        <!--<h6>1、删除自己的回复</h6>-->
+                        <!--<h6>2、删除别人的回复</h6>-->
+                        <!--<h6>3、删除帖子</h6>-->
+                        <!--<div class="text-right">-->
+                            <!--<el-button class="db-btn">开始执行</el-button>-->
+                        <!--</div>-->
+                        <!--<div class="db-log">-->
+                            <!--<p>输出日志:</p>-->
+                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</el-col>-->
+                <!--<el-col :span="6" class="db-item">-->
+                    <!--<div class="grid-content bg-purple">-->
+                        <!--<h4>删除所有自己回复过的帖子<span class="warning-red">(慎用)</span></h4>-->
+                        <!--<h6>本操作将会执行三个步骤：</h6>-->
+                        <!--<h6>1、删除自己的回复</h6>-->
+                        <!--<h6>2、删除别人的回复</h6>-->
+                        <!--<h6>3、删除帖子</h6>-->
+                        <!--<div class="text-right">-->
+                            <!--<el-button class="db-btn">开始执行</el-button>-->
+                        <!--</div>-->
+                        <!--<div class="db-log">-->
+                            <!--<p>输出日志:</p>-->
+                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</el-col>-->
+                <!--<el-col :span="6" class="db-item">-->
+                    <!--<div class="grid-content bg-purple">-->
+                        <!--<h4>删除指定自己发的帖子</h4>-->
+                        <!--<h6>本操作将会执行三个步骤：</h6>-->
+                        <!--<h6>1、删除自己的回复</h6>-->
+                        <!--<h6>2、删除别人的回复</h6>-->
+                        <!--<h6>3、删除帖子</h6>-->
+                        <!--<div class="text-right">-->
+                            <!--<el-button class="db-btn">开始执行</el-button>-->
+                        <!--</div>-->
+                        <!--<div class="db-log">-->
+                            <!--<p>输出日志:</p>-->
+                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</el-col>-->
+                <!--<el-col :span="6" class="db-item">-->
+                    <!--<div class="grid-content bg-purple">-->
+                        <!--<h4>删除指定自己回复的帖子</h4>-->
+                        <!--<h6>本操作将会执行三个步骤：</h6>-->
+                        <!--<h6>1、删除自己的回复</h6>-->
+                        <!--<h6>2、删除别人的回复</h6>-->
+                        <!--<h6>3、删除帖子</h6>-->
+                        <!--<div class="text-right">-->
+                            <!--<el-button class="db-btn">开始执行</el-button>-->
+                        <!--</div>-->
+                        <!--<div class="db-log">-->
+                            <!--<p>输出日志:</p>-->
+                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</el-col>-->
+            <!--</el-row>-->
             <el-row>
                 <el-col :span="24">
                     <h4>说明：</h4>
@@ -161,20 +171,20 @@
                         <li>登录是敏感操作，频繁登录很容易触发机器人，需要缓存会话信息</li>
                         <li>访问频率过高也会触发机器人，需要做访问限制</li>
                     </ol>
-                    <h4>接口列表</h4>
-                    <ul>
-                        <li>登录账号：<code>POST https://www.douban.com/accounts/login</code>，登录前需要先获取<code>bid</code>等信息，登录时如果不设置<code>redir_url</code>，会自动跳转到豆瓣首页，如果登录失败，则不会跳转，可以据此判断登录是否成功，或者也可以用Cookie信息进行判断。跳转完成后会拿到所有会话所需要的Cookie信息，所以需要跟踪跳转
-                        </li>
-                        <li>登出账号：<code>GET
-                            https://www.douban.com/accounts/logout?source=group&amp;ck=%s</code>，这里的<code>ck</code>就是会话中的<code>ck</code>
-                        </li>
-                        <li>获取自己发的帖子列表：<code>GET https://www.douban.com/group/people/%s/publish</code>，有翻页</li>
-                        <li>获取自己回复过的帖子列表：<code>GET https://www.douban.com/group/people/%s/reply</code>，有翻页</li>
-                        <li>删除自己的回复：<code>POST https://www.douban.com/j/group/topic/%s/remove_comment</code>
-                        </li>
-                        <li>删除自己发的帖子下的别人的回复：<code>POST https://www.douban.com/group/topic/%s/remove_comment</code>
-                        </li>
-                    </ul>
+                    <!--<h4>接口列表</h4>-->
+                    <!--<ul>-->
+                        <!--<li>登录账号：<code>POST https://www.douban.com/accounts/login</code>，登录前需要先获取<code>bid</code>等信息，登录时如果不设置<code>redir_url</code>，会自动跳转到豆瓣首页，如果登录失败，则不会跳转，可以据此判断登录是否成功，或者也可以用Cookie信息进行判断。跳转完成后会拿到所有会话所需要的Cookie信息，所以需要跟踪跳转-->
+                        <!--</li>-->
+                        <!--<li>登出账号：<code>GET-->
+                            <!--https://www.douban.com/accounts/logout?source=group&amp;ck=%s</code>，这里的<code>ck</code>就是会话中的<code>ck</code>-->
+                        <!--</li>-->
+                        <!--<li>获取自己发的帖子列表：<code>GET https://www.douban.com/group/people/%s/publish</code>，有翻页</li>-->
+                        <!--<li>获取自己回复过的帖子列表：<code>GET https://www.douban.com/group/people/%s/reply</code>，有翻页</li>-->
+                        <!--<li>删除自己的回复：<code>POST https://www.douban.com/j/group/topic/%s/remove_comment</code>-->
+                        <!--</li>-->
+                        <!--<li>删除自己发的帖子下的别人的回复：<code>POST https://www.douban.com/group/topic/%s/remove_comment</code>-->
+                        <!--</li>-->
+                    <!--</ul>-->
                 </el-col>
             </el-row>
         </el-main>

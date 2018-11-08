@@ -31,7 +31,7 @@ function isEmpty(body) {
 }
 function filter(req,res,callback) {
   if(isEmpty(req.body)){
-	res.json({head: {code: 10000, msg: '请输入登录信息'}, data: {}})
+	res.json({head: {code: 10000, msg: '请输入Cookies信息'}, data: {}})
   }else {
 	callback(req.body,res)
   }
@@ -60,8 +60,12 @@ app.post('/api/group/publish/getAll',(req,res) => {
 app.post('/api/group/reply/getAll',(req,res) => {
   filter(req,res,ctr.group.reply)
 })
-//获取自己的回帖列表
+//删除所有评论
 app.post('/api/group/remove/comment',(req,res) => {
   filter(req,res,ctr.group.removeComment)
+})
+//删除帖子
+app.post('/api/group/remove/topic',(req,res) => {
+  filter(req,res,ctr.group.removeTopic)
 })
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
