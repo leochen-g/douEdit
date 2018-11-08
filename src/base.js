@@ -1,6 +1,5 @@
 var superagent = require('superagent');
 var cheerio = require('cheerio');//引入cheerio
-var config = require('./config');
 var constant = require('./constant')
 
 //请求
