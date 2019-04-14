@@ -72,4 +72,4 @@ app.post('/api/group/remove/topic',(req,res) => {
 app.post('/api/user/collectList',(req,res) => {
   filter(req, res,ctr.user.collectList)
 })
-app.listen(3000, () => console.log('Example app listening on port 3000!'))
+app.listen(3001, () => console.log('Example app listening on port 3001!'))
