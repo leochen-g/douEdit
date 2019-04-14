@@ -15,7 +15,7 @@ var app = new Vue({
 	}
   },
   mounted (){
-	axios.defaults.baseURL = 'http://localhost:3001/api';
+	axios.defaults.baseURL = 'https://douban.xkboke.com/api';
   },
   methods:{
     getCookies (strcookie,matchcookie){
