@@ -47,6 +47,16 @@ login = function (user, psd, source, response) {
 	  .then(res => console.log(res))
 	  .catch(err => console.log(err.response.text)); // 目标内容
 }
+// 解析收藏列表的链接
+_parse_collect_path = function (text) {
+  let $ = text
+  let url = $('.doulist-list a').attr('href')
+  return url
+}
+// 解析收藏列表
+_parse_collect_list = function (text) {
+  let $ = text
+}
 //解析帖子列表
 _parse_topic_list = function (text) {
   let $ = text
@@ -187,12 +197,28 @@ remove_comment = function (body, res, start = 0) {
 		}
 	  })
 }
+// 删除帖子
 remove_topic = function (body,res,start=0) {
   Cookies = body.Cookies
   ck = body.ck
   userId = body.dbcl2
   topicId = body.topicId
   res.json({head: {code: 0, msg: 'ok'}, data: remove_topic_by_topicId(topicId)})
+}
+get_collect_list  = async function (body,res) {
+  Cookies = body.Cookies
+  ck = body.ck
+  userId = body.dbcl2
+  param = [userId]
+  let url = format(constant.API_PEOPLE_HOME, param)
+  xml(url, 'GET', '', '').then(result => {
+	let collectUrl = [_parse_collect_path(result)]
+	xml(collectUrl,'GET').then(collectXml=>{
+	  let obj = _parse_collect_list(collectXml)
+
+	})
+  })
+
 }
 module.exports = {
   login: login,
@@ -201,5 +227,8 @@ module.exports = {
 	reply: get_all_reply_topic_list,
 	removeComment: remove_comment,
 	removeTopic:remove_topic
+  },
+  user: {
+	collectList: get_collect_list,
   }
 }

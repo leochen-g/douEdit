@@ -68,4 +68,8 @@ app.post('/api/group/remove/comment',(req,res) => {
 app.post('/api/group/remove/topic',(req,res) => {
   filter(req,res,ctr.group.removeTopic)
 })
+//获取收藏的列表
+app.post('/api/user/collectList',(req,res) => {
+  filter(req, res,ctr.user.collectList)
+})
 app.listen(3000, () => console.log('Example app listening on port 3000!'))
