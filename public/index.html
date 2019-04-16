@@ -23,7 +23,7 @@
                                         type="textarea"
                                         :rows="4"
                                         placeholder="请输入内容"
-                                        v-model="Cookies" :click="changeCookies()">
+                                        v-model="Cookies" autocomplete="off" :click="changeCookies()">
                                 </el-input>
                             </el-form-item>
                             <el-row :gutter="20">
@@ -92,39 +92,39 @@
                     </div>
                 </el-col>
             </el-row>
-            <!--<el-row :gutter="20">-->
-                <!--<el-col :span="6" class="db-item">-->
-                    <!--<div class="grid-content bg-purple">-->
-                        <!--<h4>删除自己发的所有帖子<span class="warning-red">(慎用)</span></h4>-->
-                        <!--<h6>本操作将会执行三个步骤：</h6>-->
-                        <!--<h6>1、删除自己的回复</h6>-->
-                        <!--<h6>2、删除别人的回复</h6>-->
-                        <!--<h6>3、删除帖子</h6>-->
-                        <!--<div class="text-right">-->
-                            <!--<el-button class="db-btn">开始执行</el-button>-->
-                        <!--</div>-->
-                        <!--<div class="db-log">-->
-                            <!--<p>输出日志:</p>-->
-                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</el-col>-->
-                <!--<el-col :span="6" class="db-item">-->
-                    <!--<div class="grid-content bg-purple">-->
-                        <!--<h4>删除所有自己回复过的帖子<span class="warning-red">(慎用)</span></h4>-->
-                        <!--<h6>本操作将会执行三个步骤：</h6>-->
-                        <!--<h6>1、删除自己的回复</h6>-->
-                        <!--<h6>2、删除别人的回复</h6>-->
-                        <!--<h6>3、删除帖子</h6>-->
-                        <!--<div class="text-right">-->
-                            <!--<el-button class="db-btn">开始执行</el-button>-->
-                        <!--</div>-->
-                        <!--<div class="db-log">-->
-                            <!--<p>输出日志:</p>-->
-                            <!--<p class="db-log-main">{{topicDeleteLog}}</p>-->
-                        <!--</div>-->
-                    <!--</div>-->
-                <!--</el-col>-->
+            <el-row :gutter="20">
+                <el-col :span="6" class="db-item">
+                    <div class="grid-content bg-purple">
+                        <h4>删除自己发的所有帖子的评论<span class="warning-red">(慎用)</span></h4>
+                        <h6>本操作将会执行三个步骤：</h6>
+                        <h6>1、删除自己的回复</h6>
+                        <h6>2、删除别人的回复</h6>
+                        <div class="text-right">
+                            <el-button class="db-btn" @click="deleteAll">开始执行</el-button>
+                        </div>
+                        <div class="db-log">
+                            <p>输入开始条数<el-input v-model="start" placeholder="请输入开始条数"></el-input></p>
+                            <p>输出日志:</p>
+                            <p id="rizhi" class="db-log-main">{{commentDeleteLog}}</p>
+                        </div>
+                    </div>
+                </el-col>
+                <el-col :span="6" class="db-item">
+                    <div class="grid-content bg-purple">
+                        <h4>删除自己发的所有帖子，前提已经删除所有评论<span class="warning-red">(慎用)</span></h4>
+                        <h6>本操作将会执行</h6>
+                        <h6>1、删除帖子</h6>
+                        <div class="text-right">
+                            <el-button class="db-btn" @click="deleteAllTopic">开始执行</el-button>
+                        </div>
+
+                        <div class="db-log">
+                            <p>输入开始条数<el-input v-model="startTopic" placeholder="请输入开始条数"></el-input></p>
+                            <p>输出日志:</p>
+                            <p class="db-log-main">{{topicDeleteLog}}</p>
+                        </div>
+                    </div>
+                </el-col>
                 <!--<el-col :span="6" class="db-item">-->
                     <!--<div class="grid-content bg-purple">-->
                         <!--<h4>删除指定自己发的帖子</h4>-->
@@ -157,7 +157,7 @@
                         <!--</div>-->
                     <!--</div>-->
                 <!--</el-col>-->
-            <!--</el-row>-->
+            </el-row>
             <el-row>
                 <el-col :span="24">
                     <h4>说明：</h4>
@@ -190,7 +190,8 @@
         </el-main>
     </el-container>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script src="./js/main.js"></script>

@@ -27,5 +27,8 @@
     "express": "^4.16.4",
     "jquery": "^3.3.1",
     "superagent": "^3.8.2"
+  },
+  "dependencies": {
+    "socket.io": "^2.2.0"
   }
 }
