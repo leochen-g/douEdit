@@ -14,7 +14,8 @@ var app = new Vue({
 			commentDeleteLog: '',
 			topicDeleteLog: '',
 			socket: io(),
-			start: 0
+			start: 0,
+			startTopic: 0,
 		}
 	},
 	created() {
@@ -31,7 +32,7 @@ var app = new Vue({
 		},
 		deleteAllTopic() {
 			let _this = this
-			_this.socket.emit('delete topic',{Cookies:_this.Cookies,ck:_this.ck,dbcl2:_this.dbcl2,start:parseInt(_this.start)})
+			_this.socket.emit('delete topic',{Cookies:_this.Cookies,ck:_this.ck,dbcl2:_this.dbcl2,start:parseInt(_this.startTopic)})
 			_this.socket.on('delete topic', function(msg){
 				_this.topicDeleteLog = msg
 			});
@@ -96,7 +97,7 @@ var app = new Vue({
 								type: 'success'
 							});
 							console.log(res.data.data);
-							getTopicList('publish')
+							_this.getTopicList('publish')
 						} else {
 							_this.$message.error(res.data.data);
 						}
@@ -110,13 +111,12 @@ var app = new Vue({
 			action = '/group/remove/topic'
 			axios.post(action, {Cookies: _this.Cookies, ck: _this.ck, dbcl2: _this.dbcl2, topicId: id})
 					.then(function (res) {
-						if (res.data.data === {}) {
+						if (res.data.data === 'ok') {
 							_this.$message({
 								message: '成功删除帖子',
 								type: 'success'
 							});
-							console.log(res.data.data);
-							getTopicList('publish')
+							_this.getTopicList('publish')
 						} else {
 							_this.$message.error(res.data.data);
 						}

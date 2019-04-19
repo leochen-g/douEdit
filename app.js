@@ -79,12 +79,8 @@ app.post('/api/user/collectList', (req, res) => {
 })
 
 io.on('connection', function(socket){
-	socket.on('chat message',function (body) {
-		ctr.group.deleteAll(socket)
-	})
-	socket.on('delete topic',function (body){
-		ctr.group.deleteAllTopic(socket)
-	})
+	ctr.group.deleteAll(socket)
+	ctr.group.deleteAllTopic(socket)
 });
 
 http.listen(3001, () => console.log('Example app listening on port 3001!'))
