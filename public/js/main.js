@@ -18,8 +18,8 @@ var app = new Vue({
 		}
 	},
 	created() {
-		// axios.defaults.baseURL = 'https://douban.xkboke.com/api';
-		axios.defaults.baseURL = '/api';
+		axios.defaults.baseURL = 'https://douban.xkboke.com/api';
+		// axios.defaults.baseURL = '/api';
 	},
 	methods: {
 		deleteAll() {
