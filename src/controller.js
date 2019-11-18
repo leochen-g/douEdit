@@ -229,7 +229,7 @@ delete_all = async function (socket) {
 				allComment.push(comment)
 			}
 			socket.emit('chat message', '已经获取所有评论完毕，正在删除...')
-			console.log('allcoment', allComment)
+			console.log('item', allComment)
 			for (item of allComment) {
 				for (i in item) {
 					for (j in item[i]) {
