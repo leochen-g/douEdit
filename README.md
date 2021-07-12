@@ -1,6 +1,11 @@
 # douEdit
 
 > 可视化豆瓣批量操作工具
+
+## 在线地址
+
+http://douban.xkboke.com/
+
 ## 说明
 - 首先需求很明确：快速删除掉在豆瓣小组内的发帖和回复记录
 - 要访问自己的豆瓣小组，需要登录帐号获取会话信息，其中一个关键的信息会话ID<code>dbcl2</code>设置了<code>HttpOnly</code>，此外还需要一个动态id<code>ck</code>。当然这些问题都可以通过把所有的<code>Cookie</code>添加到客户端搞定。
@@ -16,7 +21,7 @@
 
 ## 使用
 打开浏览器
-输入 http://localhost:3000/
+输入 http://localhost:3000/  (本地起了服务才能用这个链接访问)
 根据界面操作提示即可
 
 ## 功能
